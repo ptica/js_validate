@@ -1,7 +1,7 @@
 <?php
 class JsValidateController extends JsValidateAppController {
 	var $name = 'JsValidate';
-	var $helpers = array('Javascript', 'JsValidate.Validation');
+	var $helpers = array('Javascript', 'JsValidate.JsValidation');
 	var $components = array('RequestHandler');
 
 	function beforeFilter() {

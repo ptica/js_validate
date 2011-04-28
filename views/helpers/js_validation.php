@@ -99,7 +99,12 @@ class JsValidationHelper extends Helper {
 							$temp['negate'] = true;
 						}
 
-						$validation[$realModelName . Inflector::camelize($field)][] = $temp;
+						// for date fields there is no dom object with matching id
+						// as date is formed by three selects
+						// we pick 'day' select and handle assembly in js
+						$fieldSchema = $model->schema($field);
+						$fieldId = $fieldSchema['type'] == 'date' ? Inflector::camelize($field) . 'Day' : Inflector::camelize($field);
+						$validation[$realModelName . $fieldId][] = $temp;
 					}
 				}
 			}
@@ -230,6 +235,9 @@ class JsValidationHelper extends Helper {
 				//Don't think there is a way to do this with a regular expressions,
 				//so we'll handle this with plain old javascript
 				return array('rule' => $rule, 'params' => array($params[0], $params[1]));
+			case 'minDate':
+				// support
+				return array('rule' => $rule, 'params' => date("d.m.Y", strtotime($params[0])));
 		}
 
 		//try to lookup the regular expression from
@@ -257,7 +265,9 @@ class JsValidationHelper extends Helper {
 			return $regex;
 		}
 		// If not rule is selected handle with a regular expression
-		return($rule);
+		#return($rule);
+		return array('rule' => $rule, 'params' => $params);
+		
 	}
 
 	function __fixWatch($modelName, $fields) {

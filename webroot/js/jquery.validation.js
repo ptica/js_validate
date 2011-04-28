@@ -52,7 +52,7 @@
 			if (typeof val == "string") {
 				val = $.trim(val);
 			}
-
+			
 			$.each(this,
 			function() {
 				//field doesn't exist...skip
@@ -92,7 +92,7 @@
 		if (negate == undefined) {
 			negate = false;
 		}
-
+		
 		//handle custom functions
 		if (typeof rule == 'object') {
 			if ($.fn.validate[rule.rule] != undefined) {
@@ -187,6 +187,24 @@
 		}
 
 		return true;
+	};
+	
+	$.fn.validate.assembleDate = function(day, dayName) {
+		// we got day select as val
+		// lets look for month and year
+		monthName = dayName.replace('[day]', '[month]'); 
+		yearName  = dayName.replace('[day]', '[year]');
+		$month = $('select[name="'+monthName+'"]');
+		$year = $('select[name="'+yearName+'"]');
+		// beware of strange js month numbering!
+		return new Date($year.val(), $month.val() - 1, day);
+	};
+	$.fn.validate.minDate = function(val, params, fieldName) {
+		val = $.fn.validate.assembleDate(val, fieldName);
+		d = params.split('.');
+		wanted = new Date(d[2], d[1]-1, d[0]);
+		diff = val.getTime() - wanted.getTime();
+		return diff >= 0;
 	};
 
 	$.fn.validate.ajaxField = function($field) {
