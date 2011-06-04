@@ -264,8 +264,12 @@ class JsValidationHelper extends Helper {
 			}
 			return $regex;
 		}
-		// If not rule is selected handle with a regular expression
-		#return($rule);
+		
+		// it could be a custom regexp
+		if (preg_match('/^\/.*\/i?/', $rule))
+			return $rule;
+		
+		// or it could be a custom function, that has to be implemented also in js-validate lib!!!
 		return array('rule' => $rule, 'params' => $params);
 		
 	}
