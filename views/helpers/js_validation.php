@@ -13,7 +13,7 @@
 
 //feel free to replace these or overwrite in your bootstrap.php
 if (!defined('VALID_EMAIL_JS')) {
-	define('VALID_EMAIL_JS', '/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/');
+	define('VALID_EMAIL_JS', '/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})$/');
 }
 //I know the octals should be capped at 255
 if (!defined('VALID_IP_JS')) {
