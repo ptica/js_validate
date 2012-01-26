@@ -102,9 +102,18 @@ class JsValidationHelper extends Helper {
 						// for date fields there is no dom object with matching id
 						// as date is formed by three selects
 						// we pick 'day' select and handle assembly in js
+						// ... same for time with 'hour' field
 						$fieldSchema = $model->schema($field);
-						$fieldId = $fieldSchema['type'] == 'date' ? Inflector::camelize($field) . 'Day' : Inflector::camelize($field);
+						if ($fieldSchema['type'] == 'date' || @$validator['js_validation_type'] == 'date') {
+							$fieldId = Inflector::camelize($field) . 'Day';
+						} else if ($fieldSchema['type'] || @$validator['js_validation_type'] == 'time') {
+							$fieldId = Inflector::camelize($field) . 'Hour';
+						} else {
+							$fieldId = Inflector::camelize($field);
+						}
 						$validation[$realModelName . $fieldId][] = $temp;
+						
+						
 					}
 				}
 			}
