@@ -106,7 +106,7 @@ class JsValidationHelper extends Helper {
 						$fieldSchema = $model->schema($field);
 						if ($fieldSchema['type'] == 'date' || @$validator['js_validation_type'] == 'date') {
 							$fieldId = Inflector::camelize($field) . 'Day';
-						} else if ($fieldSchema['type'] || @$validator['js_validation_type'] == 'time') {
+						} else if ($fieldSchema['type'] == 'time' || @$validator['js_validation_type'] == 'time') {
 							$fieldId = Inflector::camelize($field) . 'Hour';
 						} else {
 							$fieldId = Inflector::camelize($field);
